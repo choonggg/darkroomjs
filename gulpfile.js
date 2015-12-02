@@ -17,33 +17,37 @@ var uglify = require('gulp-uglify')
 //
 var srcDir = './lib';
 var distDir = './build';
+var demoDir = './demo/build';
+var vendorDir = './demo/vendor';
 var isDebug = !gutil.env.prod;
 
 //
 // Default
 //
-gulp.task('default', ['build'], function() {
+gulp.task('default', ['build'], function () {
   gulp.start('watch');
 });
 
 //
 // Clean
 //
-gulp.task('clean', function(cb) {
+gulp.task('clean', function (cb) {
+  rimraf(demoDir, function () { });
+  rimraf(vendorDir, function () { });
   rimraf(distDir, cb);
 });
 
 //
 // Build
 //
-gulp.task('build', ['clean'], function() {
+gulp.task('build', ['clean'], function () {
   gulp.start('scripts', 'styles');
 });
 
 //
 // Watch
 //
-gulp.task('watch', ['server'], function() {
+gulp.task('watch', ['server'], function () {
   gulp.watch(srcDir + '/js/**/*.js', ['scripts']);
 
   gulp.watch(srcDir + '/css/**/*.scss', ['styles']);
@@ -52,11 +56,11 @@ gulp.task('watch', ['server'], function() {
 //
 // Server
 //
-gulp.task('server', function() {
+gulp.task('server', function () {
   connect.server({
     root: './demo',
     port: 2222,
-    livereload: false
+    livereload: true
   });
 });
 
@@ -66,10 +70,10 @@ gulp.task('server', function() {
 gulp.task('scripts', function () {
   var svgs = gulp.src(srcDir + '/icons/*.svg')
     .pipe(svgmin())
-    .pipe(svgstore({inlineSvg: true}))
-    // .pipe(gulp.dest(distDir));
+    .pipe(svgstore({ inlineSvg: true }))
+  // .pipe(gulp.dest(distDir));
 
-  function fileContents (filePath, file) {
+  function fileContents(filePath, file) {
     return file.contents.toString();
   }
 
@@ -87,11 +91,20 @@ gulp.task('scripts', function () {
   gulp.src(files)
     .pipe(plumber())
     .pipe(isDebug ? sourcemaps.init() : gutil.noop())
-      .pipe(concat('darkroom.js', {newLine: ';'}))
+      .pipe(concat('darkroom.js', { newLine: ';' }))
       .pipe(inject(svgs, { transform: fileContents }))
-      .pipe(isDebug ? gutil.noop() : uglify({mangle: false}))
+      .pipe(isDebug ? gutil.noop() : uglify({ mangle: false }))
     .pipe(isDebug ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(distDir))
+    .pipe(gulp.dest(demoDir))
+
+  var vendorfiles = [
+    './bower_components/fabric/dist/fabric.js',
+  ];
+
+  gulp.src(vendorfiles)
+    .pipe(plumber())
+    .pipe(gulp.dest(vendorDir))
 })
 
 //
@@ -106,4 +119,5 @@ gulp.task('styles', function () {
       }))
     .pipe(isDebug ? sourcemaps.write() : gutil.noop())
     .pipe(gulp.dest(distDir))
+    .pipe(gulp.dest(demoDir))
 })
