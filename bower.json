@@ -1,14 +1,15 @@
 {
   "name": "darkroom",
   "description": "Extensible image editing tool via HTML canvas",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "homepage": "http://mattketmo.github.io/darkroomjs/",
   "authors": [
-    "Matthieu Moquet <matthieu@moquet.net>"
+    "Matthieu Moquet <matthieu@moquet.net>",
+    "Bjarke Buur Mortensen <bjarkebm@gmail.com>"
   ],
   "license": "MIT",
   "dependencies": {
-    "fabric": "~1.4.*"
+    "fabric": "~1.5.*"
   },
   "main": [
     "build/darkroom.css",
