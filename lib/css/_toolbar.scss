@@ -65,7 +65,7 @@
   }
 
   &:disabled .darkroom-icon {
-    fill: #666;
+    color: #666;
   }
   &:disabled:hover {
     cursor: default;
@@ -73,27 +73,29 @@
     background: transparent;
   }
   &.darkroom-button-active .darkroom-icon {
-    fill: #33b5e5;
+    color: #33b5e5;
   }
   &.darkroom-button-hidden {
     display: none;
   }
   &.darkroom-button-success .darkroom-icon {
-    fill: #99cc00;
+    color: #99cc00;
   }
   &.darkroom-button-warning .darkroom-icon {
-    fill: #FFBB33;
+    color: #FFBB33;
   }
   &.darkroom-button-danger .darkroom-icon {
-    fill: #FF4444;
+    color: #FF4444;
   }
-}
 
-//
-// Icon
-//
-.darkroom-icon {
-  width: 24px;
-  height: 24px;
-  fill: #fff;
+  //
+  // Icon
+  //
+  i.darkroom-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 21px;
+    color: #fff;
+    color: #fff;
+  }
 }
